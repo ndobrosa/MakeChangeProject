@@ -3,8 +3,9 @@ package com.skilldistillery.makechange;
 import java.util.Scanner;
 
 
+
 public class MakeChange {
-double price;
+double price = 0;
 double paid;
 //	public static void main(String[] args) {
 //		Overview
@@ -17,16 +18,22 @@ double paid;
 //
 		public void pricePaid() {
 		Scanner sc = new Scanner(System.in);
+		String addPrice;
+		
+		do {
 		System.out.print("Please enter the price of the product: ");
-		price = sc.nextDouble() * 100;
-
+		price += sc.nextDouble() * 100;
+		System.out.print("Would you like to add another product? (Y or N) ");
+		addPrice = sc.next();			
+		} while (!addPrice.equals("N"));
+		
+		System.out.println("The total price is " + price/100);
 //		User Story #2
 //		The user is then prompted asking how much money was tendered by the customer.		
 		System.out.print("Please enter how much was tendered by the customer: ");
 		paid = sc.nextDouble() * 100;
 		
 		int choice = isPoor();
-		System.out.println(choice);
 		System.out.println(change(choice));
 		
 		sc.close();
@@ -52,9 +59,7 @@ double paid;
 		}
 		
 		if (price == paid) {
-				System.out.println("The amount paid and the amount tendered are the same value. Customer recieves no change.");
-				price = paid - 2;
-				choice = 1;     //latest change
+				choice = 3;     //latest change
 			}
 		
 		sc.close();
@@ -78,7 +83,7 @@ double paid;
 		int ten = 0;
 		int twenty = 0;
 		
-		String change = "\nThe transaction was unsuccessful.Please return the customer his $" + paid/100;
+		String change = "\nThe transaction was unsuccessful.Please return the customer his $" + (paid/100) + "!";
 		
 
 		
@@ -118,11 +123,13 @@ double paid;
 				totalChange = 0;
 			}
 		}
-			change = "\nPlease return the following change to the customer!\n\nBills" + "\n$20 Bills:\t" + twenty + "\n$10 Bills:\t" + ten + "\n$5 Bills:\t" + five + "\n$1 Bills:\t" + dollar + "\n\nCoins" + "\nQuarters:\t" + quarter + "\nDimes:\t\t" + dime  + "\nNickels:\t"+  nickel + "\nPennies:\t" + penny;
+			
+		
+		change = "\nPlease return the following change to the customer!\n\nBills" + "\n$20 Bills:\t" + twenty + "\n$10 Bills:\t" + ten + "\n$5 Bills:\t" + five + "\n$1 Bills:\t" + dollar + "\n\nCoins" + "\nQuarters:\t" + quarter + "\nDimes:\t\t" + dime  + "\nNickels:\t"+  nickel + "\nPennies:\t" + penny;
 		}
 	
 	
-		else if (price == paid - 2) {
+		else if (choice == 3) {
 			change = "\nCustomer has paid the full amount. There is no change to be distributed.";
 		}
 		

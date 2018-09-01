@@ -25,8 +25,9 @@ double paid;
 		System.out.print("Please enter how much was tendered by the customer: ");
 		paid = sc.nextDouble() * 100;
 		
-		isPoor();
-		System.out.println(change(isPoor()));
+		int choice = isPoor();
+		System.out.println(choice);
+		System.out.println(change(choice));
 		
 		sc.close();
 
@@ -36,24 +37,26 @@ double paid;
 
 	public int isPoor() {
 		Scanner sc = new Scanner(System.in);
-		int choice = 0;
+		int choice = 2;
 		
 		while (paid < price) {
 			System.out.println("The amount tendered is lower than the price. Chose an option below:\n1. Press 1 to cancel the transaction. ");
 			System.out.println("2. Press 2 to enter a new tendered value.");
 			choice = sc.nextInt();
 			if (choice == 1) {
-				System.out.println("Goodbye!");
 				break;
 			} else if (choice == 2) {
 				System.out.print("Enter the new amount paid: ");
 				paid = sc.nextDouble() * 100;
 			}
 		}
-		while (price == paid) {
-				System.out.println("The amount paind and the amount tendered are the same value. Customer recieves no change.");
-				break;
+		
+		if (price == paid) {
+				System.out.println("The amount paid and the amount tendered are the same value. Customer recieves no change.");
+				price = paid - 2;
+				choice = 1;     //latest change
 			}
+		
 		sc.close();
 		return choice;
 		
@@ -75,11 +78,12 @@ double paid;
 		int ten = 0;
 		int twenty = 0;
 		
+		String change = "\nThe transaction was unsuccessful.Please return the customer his $" + paid/100;
+		
 
 		
-		String change;
 		
-	if(choice != 1)	
+	if(choice == 2)	{
 		if(totalChange > 0) {
 			if (totalChange / 2000 >= 1) {
 				twenty = (int)(totalChange / 2_000);
@@ -114,8 +118,13 @@ double paid;
 				totalChange = 0;
 			}
 		}
-			
-		change = "\nPlease return the following change to the customer!\n\nBills" + "\n$20 Bills:\t" + twenty + "\n$10 Bills:\t" + ten + "\n$5 Bills:\t" + five + "\n$1 Bills:\t" + dollar + "\n\nCoins" + "\nQuarters:\t" + quarter + "\nDimes:\t\t" + dime  + "\nNickels:\t"+  nickel + "\nPennies:\t" + penny;
+			change = "\nPlease return the following change to the customer!\n\nBills" + "\n$20 Bills:\t" + twenty + "\n$10 Bills:\t" + ten + "\n$5 Bills:\t" + five + "\n$1 Bills:\t" + dollar + "\n\nCoins" + "\nQuarters:\t" + quarter + "\nDimes:\t\t" + dime  + "\nNickels:\t"+  nickel + "\nPennies:\t" + penny;
+		}
+	
+	
+		else if (price == paid - 2) {
+			change = "\nCustomer has paid the full amount. There is no change to be distributed.";
+		}
 		
 		
 		return change;
